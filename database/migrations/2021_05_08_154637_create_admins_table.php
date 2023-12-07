@@ -13,7 +13,7 @@ class CreateAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('UTBM')->create('admins', function (Blueprint $table) {
+        Schema::connection('ZURICH')->create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('phone');

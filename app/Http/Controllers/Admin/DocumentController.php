@@ -8,6 +8,9 @@ use App\Models\Document;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DocumentRER;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 
 class DocumentController extends Controller
@@ -26,13 +29,15 @@ class DocumentController extends Controller
     }
 
     return view('dashboard.user.userlocal', ['documents' => $documents]);
+
     }
     
 
 
+public function showDocumentspublic(Request $request)
 
-    public function showDocumentspublic(Request $request)
     {
+
         $query = $request->input('search');
     
         if ($query) {
@@ -44,10 +49,31 @@ class DocumentController extends Controller
         }
     
         return view('dashboard.user.userpublic', ['documents' => $documents]);
+
     }
     
 
-
+ 
+    public function showAllDocuments(Request $request)
+    {
+        $query = $request->input('search');
+    
+        if ($query) {
+            $localDocuments = Document::where('nom', 'like', '%' . $query . '%')->get();
+            $publicDocuments = DocumentRER::where('nom', 'like', '%' . $query . '%')
+            ->where('Univ', '<>', 'ZURICH')
+            ->get();        } 
+            else 
+            {
+            $localDocuments = Document::all();
+            $publicDocuments = DocumentRER::where('Univ', '<>', 'ZURICH')->get();
+        }
+    
+       // dd($localDocuments, $publicDocuments); // Ajoutez cette ligne pour déboguer
+    
+        return view('dashboard.user.home', ['localDocuments' => $localDocuments, 'publicDocuments' => $publicDocuments]);
+    }
+    
 
 
 
@@ -62,9 +88,31 @@ class DocumentController extends Controller
             abort(404);
         }
     }
+   
+    public function downloadRemoteDocument($id)
+    {
+        $document = DocumentRER::findOrFail($id);
+        // Construisez l'URL complète
+        $remoteFileUrl = 'http://localhost:8001/storage/' . $document->chemin;
     
+        try {
+            $client = new Client();
+            $response = $client->get($remoteFileUrl);
     
+            if ($response->getStatusCode() == 200) {
+                $contentType = $response->getHeaderLine('Content-Type');
     
+                return Response::make($response->getBody()->getContents(), 200, [
+                    'Content-Type' => $contentType,
+                    'Content-Disposition' => 'attachment; filename="' . basename($remoteFileUrl) . '"',
+                ]);
+            } else {
+                abort(404);
+            }
+        } catch (\Exception $e) {
+            abort(404);
+        }
+    }
 
 
 
@@ -86,25 +134,23 @@ class DocumentController extends Controller
             $document = new Document();
             $document->nom = $filename;
             $document->chemin = $path;
-            $document->Univ = 'UTBM';
+            $document->Univ = 'ZURICH';
             $document->nom_utilisateur = Auth::guard('admin')->user()->name;
             $document->prive = !($request->input('public') === 'yes');
             $document->save();
     
 
+            
                    // Enregistrez dans la base de données RER uniquement si 'public' est égal à 'yes'
         if ($request->input('public') === 'yes') {
             $documentRER = new DocumentRER();
             $documentRER->nom = $filename;
             $documentRER->chemin = $path;
             $documentRER->nom_utilisateur = Auth::guard('admin')->user()->name;
-            $documentRER->Univ = 'UTBM';
+            $documentRER->Univ = 'ZURICH';
             $documentRER->prive = false; // Puisque c'est public
             $documentRER->save();
-
         }
-
-        
 
 
         // return response()->json(['success' => 'Document uploaded successfully.']);

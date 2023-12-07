@@ -73,6 +73,16 @@ return [
             // ... autres paramètres ...
         ],
 
+        'ZURICH' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_ZURICH', '127.0.0.1'),
+            'port' => env('DB_PORT_ZURICH', '3306'),
+            'database' => env('DB_DATABASE_ZURICH', 'nom_de_la_base_zurich'),
+            'username' => env('DB_USERNAME_ZURICH', 'utilisateur'),
+            'password' => env('DB_PASSWORD_ZURICH', 'mot_de_passe'),
+            // ... autres paramètres ...
+        ], 
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

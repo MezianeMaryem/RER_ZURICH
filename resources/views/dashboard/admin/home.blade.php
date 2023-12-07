@@ -110,7 +110,7 @@
                  <!-- Contenu de la page -->
                  <div>
                      <!-- Ici vous pouvez ajouter plus de contenu, par exemple un message de bienvenue, des liens vers d'autres pages, ou d'autres informations utiles pour l'utilisateur. -->
-                     <p>Welcome to your dashboard, {{ Auth::guard('admin')->user()->name }}. Here you can add and consult your school documents.</p>
+                     <p>Welcome to your dashboard, {{ Auth::guard('admin')->user()->name }}. Here you can add and consult your documents.</p>
                      <!-- Ajoutez d'autres éléments ici selon les besoins -->
 
                      <br><br><br><br>

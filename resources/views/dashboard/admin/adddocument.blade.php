@@ -4,7 +4,7 @@
       <meta charset="utf8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>UTBM</title>
+        <title>Universität Zürich </title>
         <style>
          /* Apply a dark background to the body */
 body {
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </head>
     <body>
         <div class="center-content logo">
-            <img src="{{ asset('images/UTBM.png') }}" alt="Logo" />
+        <img src="{{ asset('images/UTBM.png') }}" alt="Logo"  />
         </div>
         <div class="center-content">
             <h1>Hello, Professor ! </h1>

@@ -13,7 +13,7 @@ class CreateDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('UTBM')->create('documents', function (Blueprint $table) {
+        Schema::connection('ZURICH')->create('documents', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
             $table->string('chemin'); 
