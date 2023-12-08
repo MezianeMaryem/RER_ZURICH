@@ -10,8 +10,6 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      db-utbm:
-        condition: service_healthy
       db-rer:
         condition: service_healthy
       db-zurich:
@@ -76,6 +74,5 @@ services:
 
 volumes:
   laravel_volume:
-  db-utbm-data:
   db-rer-data:
   db-zurich-data:
