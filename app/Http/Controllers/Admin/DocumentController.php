@@ -93,7 +93,7 @@ public function showDocumentspublic(Request $request)
     {
         $document = DocumentRER::findOrFail($id);
         // Construisez l'URL complète
-        $remoteFileUrl = 'http://localhost:8001/storage/' . $document->chemin;
+        $remoteFileUrl = 'http://172.205.202.37:8001/storage/' . $document->chemin;
     
         try {
             $client = new Client();
