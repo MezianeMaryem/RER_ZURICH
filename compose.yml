@@ -32,21 +32,6 @@ services:
     depends_on:
       - laravel
 
-  db-utbm:
-    image: mysql:latest
-    platform: linux/amd64
-    environment:
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_USER=${DB_USERNAME}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=rootpassword
-    volumes:
-      - db-utbm-data:/var/lib/mysql
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-c", "1"]
-      timeout: 3s
-      retries: 10
-
   db-rer:
     image: mysql:latest
     platform: linux/amd64
