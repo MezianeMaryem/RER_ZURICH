@@ -59,6 +59,7 @@ services:
       - "${DB_PORT_ZURICH}"
     volumes:
       - db-zurich-data:/var/lib/mysql
+      - ./ZURICH.sql:/docker-entrypoint-initdb.d/ZURICH.sql
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-c", "1"]
       timeout: 3s
