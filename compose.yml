@@ -6,7 +6,7 @@ services:
       dockerfile: ./Dockerfile
     platform: linux/amd64
     volumes:
-      - laravel_volume:/var/www/html
+      - laravel-volume:/var/www/html
     ports:
       - "8000:8000"
     depends_on:
@@ -19,7 +19,7 @@ services:
     image: node:latest
     platform: linux/amd64
     volumes:
-      - laravel_volume:/usr/src/app
+      - laravel-volume:/usr/src/app
     environment:
       - APP_URL=http://localhost:8000
     ports:
@@ -40,6 +40,8 @@ services:
       - MYSQL_ROOT_PASSWORD=rootpassword
     volumes:
       - db-rer-data:/var/lib/mysql
+    ports:
+      - "${RER_DB_PORT}"
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-c", "1"]
       timeout: 3s
@@ -50,9 +52,11 @@ services:
     platform: linux/amd64
     environment:
       - MYSQL_DATABASE=${DB_DATABASE_ZURICH}
-      - MYSQL_USER=${RER_DB_USERNAME}
-      - MYSQL_PASSWORD=${RER_DB_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME_ZURICH}
+      - MYSQL_PASSWORD=${DB_PASSWORD_ZURICH}
       - MYSQL_ROOT_PASSWORD=rootpassword
+    ports:
+      - "${DB_PORT_ZURICH}"
     volumes:
       - db-zurich-data:/var/lib/mysql
     healthcheck:
@@ -65,7 +69,7 @@ services:
     platform: linux/amd64
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - laravel_volume:/usr/src/app
+      - laravel-volume:/usr/src/app
     ports:
       - "80:80"
     depends_on:
@@ -73,6 +77,6 @@ services:
     command: /bin/bash -c "nginx -g 'daemon off;'"
 
 volumes:
-  laravel_volume:
+  laravel-volume:
   db-rer-data:
   db-zurich-data:

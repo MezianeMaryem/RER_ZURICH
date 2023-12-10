@@ -26,8 +26,9 @@ RUN php artisan clear-compiled
 
 EXPOSE 8000
 
-CMD sh -c 'php artisan key:generate && \
+
+CMD sh -c 'php artisan config:clear && \
+           php artisan key:generate && \
            php artisan migrate && \
-           php artisan config:clear && \
            php artisan route:clear && \
            exec php artisan serve --host=0.0.0.0 --port=8000'
