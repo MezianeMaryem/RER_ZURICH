@@ -22,13 +22,15 @@ COPY . /var/www/html
 
 RUN composer dump-autoload --optimize
 
+RUN composer require guzzlehttp/guzzle
+
 RUN php artisan clear-compiled
 
 EXPOSE 8000
 
-
 CMD sh -c 'php artisan config:clear && \
            php artisan key:generate && \
            php artisan migrate && \
+           php artisan storage:link && \
            php artisan route:clear && \
            exec php artisan serve --host=0.0.0.0 --port=8000'
