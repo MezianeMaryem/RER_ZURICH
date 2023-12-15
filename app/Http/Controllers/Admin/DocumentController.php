@@ -32,7 +32,25 @@ class DocumentController extends Controller
 
     }
     
-
+ public function showAdminAllDocuments(Request $request)
+    {
+        $query = $request->input('search');
+    
+        if ($query) {
+            $localDocuments = Document::where('nom', 'like', '%' . $query . '%')->get();
+            $publicDocuments = DocumentRER::where('nom', 'like', '%' . $query . '%')
+            ->where('Univ', '<>', 'ZURICH')
+            ->get();        } 
+            else 
+            {
+            $localDocuments = Document::all();
+            $publicDocuments = DocumentRER::where('Univ', '<>', 'ZURICH')->get();
+        }
+    
+       // dd($localDocuments, $publicDocuments); // Ajoutez cette ligne pour déboguer
+    
+        return view('dashboard.user.userpublic', ['localDocuments' => $localDocuments, 'publicDocuments' => $publicDocuments]);
+    }
 
 public function showDocumentspublic(Request $request)
 
