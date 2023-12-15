@@ -105,6 +105,7 @@ Route::get('/documents/search', [DocumentController::class, 'index'])->name('doc
 Route::get('/local-documents', [DocumentController::class, 'showDocuments'])->name('user.userlocal');
 Route::get('/public-documents', [DocumentController::class, 'showDocumentspublic'])->name('user.userpublic');
 
+Route::get('/public-documents', [DocumentController::class, 'showAdminAllDocuments'])->name('user.userpublic');
 
 
 Route::get('storage/app/public/documents/{id}', [DocumentController::class, 'downloadDocument'])->name('documents.download');
