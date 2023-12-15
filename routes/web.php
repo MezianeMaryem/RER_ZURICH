@@ -103,7 +103,7 @@ Route::get('public/documents', [DocumentController::class, 'store'])->name('admi
 
 Route::get('/documents/search', [DocumentController::class, 'index'])->name('documents.search');
 Route::get('/local-documents', [DocumentController::class, 'showDocuments'])->name('user.userlocal');
-Route::get('/public-documents', [DocumentController::class, 'showDocumentspublic'])->name('user.userpublic');
+//Route::get('/public-documents', [DocumentController::class, 'showDocumentspublic'])->name('user.userpublic');
 
 Route::get('/public-documents', [DocumentController::class, 'showAdminAllDocuments'])->name('user.userpublic');
 
